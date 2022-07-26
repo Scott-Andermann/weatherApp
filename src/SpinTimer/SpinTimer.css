@@ -1,0 +1,58 @@
+.container {
+    display: block;
+    height: 100vh;
+    position: relative;
+    text-align: center;
+}
+
+h2 {
+    color: white;
+}
+
+@property --progress {
+    syntax: '<percentage>';
+    initial-value: 0%;
+    inherits: false;
+}
+
+.outer {
+    height: 400px;
+    width: 400px;
+    --color: darkblue;
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    margin: auto;
+    background: conic-gradient(var(--color) var(--progress), rgb(204, 202, 202) 0%);
+    animation-fill-mode: forwards;
+}
+
+.inner {
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: white;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: conic-gradient(var(--color) var(--progress), gray 0%);
+}
+
+.outer[timerCircle='1'] {
+    animation: timerCircle 5s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes timerCircle {
+    50% {
+        --progress: 50%;
+    }
+
+    100% {
+        --progress: 100%;
+    }
+}
+
