@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import './CurrentWeather.css';
 
 function CurrentWeather(props) {
     const [newZip, setNewZip] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleNewZipChange = (event) => {
         setNewZip(event.target.value);
@@ -47,18 +49,27 @@ function CurrentWeather(props) {
     }
 
     useEffect(() => {
-        // console.log(props.data);
-    })
+        console.log(props.data);
+        if (props.data) setIsLoading(false);
+    }, [props.data])
 
+    if (isLoading) {
+        return (
+            <div>
+                <h2>Loading</h2>
+            </div>
+        )
+    }
+    else {
     return (
-        <div>
-            <h3>The current weather in {props.location.city} is:</h3>
+        <div className='current'>
+            <h2>The current weather in {props.location.city} is:</h2>
             <ul>
-                <li><img src={skyIcon(props.data.weather[0].main)} /></li>
-                <li>Temperature: {Number(props.data.temp).toFixed(0)}</li>
-                <li>Feels Like: {Number(props.data.feels_like).toFixed(0)}</li>
-                <li>Wind Speed: {props.data.wind_speed}</li>
-                <li>Wind direction: <img src={'/resources/windArrow.jpg'} style={windDirection(props.data.wind_deg)} /></li>
+                <li><img src={`/resources/${props.data.current.weather[0].main}.png`} /></li>
+                <li>Temperature: {Number(props.data.current.temp).toFixed(0)} C</li>
+                <li>Feels Like: {Number(props.data.current.feels_like).toFixed(0)} C</li>
+                <li>Wind Speed: {props.data.current.wind_speed} m/s</li>
+                <li>Wind direction: <br></br><img src={'/resources/windArrow.jpg'} style={windDirection(props.data.wind_deg)} /></li>
             </ul>
             <form onSubmit={handleSubmit}>
                 <input placeholder="Enter Zip Code"
@@ -67,7 +78,7 @@ function CurrentWeather(props) {
                 <button type="submit">Submit</button>
             </form>
         </div>
-    );
+    );}
 }
 
 export default CurrentWeather;

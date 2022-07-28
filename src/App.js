@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react';
 
 import './App.css';
 import CurrentWeather from './CurrentWeather/CurrentWeather';
+import Forecast from './Forecast/Forecast';
 
-import { sampleData, sampleLocation } from './sampleData';
+import { sampleData, sampleLocation, fullSample } from './sampleData';
+import { openWeatherKey, googleAPIKey } from './keys';
 
-const APIKey = 'b57e2c09f0096bb9a4e288b49ad7d3ae';
-const googleKey = 'AIzaSyC8y6BskH0Wwjjj_A2vTT_V81ZaFD5UAKo';
-const dev = false;
-const googDev = false;
+const APIKey = openWeatherKey;
+const googleKey = googleAPIKey;
+
+// set development stat to reduce API calls when making changes
+// when refreshing page - dev must be set to true
+const dev = true;
+const googDev = true;
 
 // const dev = true;
 // const googDev = true;
@@ -20,9 +25,10 @@ function App() {
   const [zipcode, setZipcode] = useState('28210')
   const [googUrl, setGoogUrl] = useState(`https://maps.googleapis.com/maps/api/geocode/json?key=${googleKey}&components=postal_code:${zipcode}`)
   const [location, setLocation] = useState({});
-
-  const [url, setUrl] = useState(`https://api.openweathermap.org/data/3.0/onecall?lat=41.6967&lon=-88.197&units=metric&exclude=hourly,daily&appid=${APIKey}`);
+  const [url, setUrl] = useState(`https://api.openweathermap.org/data/3.0/onecall?lat=41.6967&lon=-88.197&units=metric&exclude=minutely,hourly&appid=${APIKey}`);
   // console.log(url);
+
+  // console.log(fullSample.daily[0].temp.max);
 
   const setNewZip = (newZip) => {
     setZipcode(newZip);
@@ -48,8 +54,8 @@ function App() {
     try {
       const response = await fetch(url);
       const json = await response.json();
-      console.log(json.current);
-      setData(json.current);
+      // console.log(json);
+      setData(json);
     } catch (error) {
       console.log('error', error);
     }
@@ -72,12 +78,13 @@ function App() {
   }, [googUrl])
 
   useEffect(() => {
-    setUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${location.lat}&lon=${location.lng}&units=metric&exclude=hourly,daily&appid=${APIKey}`)
+      setUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${location.lat}&lon=${location.lng}&units=metric&exclude=minutely,hourly&appid=${APIKey}`);
   }, [location])
 
   useEffect(() => {
     if (dev) {
-      setData(sampleData);
+      console.log('setting data to sampleData')
+      setData(fullSample);
     } else {
       fetchData();
     };
@@ -86,8 +93,9 @@ function App() {
   return (
     <div>
       {/* added the ternary operator because setData is not being reliable for me */}
-      <CurrentWeather data={data ? data : sampleData} location={location} setNewZip={setNewZip}/>
+      <CurrentWeather data={data ? data: fullSample} location={location} setNewZip={setNewZip}/>
       {/* 7 day forecast with temp chart*/}
+      <Forecast data={data ? data : fullSample}/>
     </div>
 
   );
