@@ -92,7 +92,7 @@ function App() {
       fetchData();
     };
   }, [url])
-
+  console.log(data)
   return (
     <div>
       {/* added the ternary operator because setData is not being reliable for me */}
