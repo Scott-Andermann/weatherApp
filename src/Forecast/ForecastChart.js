@@ -5,10 +5,6 @@ import './ForecastChart.css';
 
 Chart.register(...registerables);
 
-
-
-
-
 function ForecastChart(props) {
 
     const [maxTemps, setMaxTemps] = useState([]);
@@ -17,17 +13,19 @@ function ForecastChart(props) {
     const updateTemps = () => {
         let maxTemp = [];
         let minTemp = [];
-        for (let i=0; i < 8; i++) {
+        for (let i = 0; i < 8; i++) {
             maxTemp.push(props.data.daily[i].temp.max)
             minTemp.push(props.data.daily[i].temp.min)
         }
         setMaxTemps(maxTemp);
         setMinTemps(minTemp);
     }
+
+
+
     useEffect(() => {
         updateTemps();
-
-    },[])
+    }, [props.data])
 
     const data = {
         labels: props.week,
@@ -50,11 +48,13 @@ function ForecastChart(props) {
         ]
     }
 
+
     return (
-        <div className='plot container' style={{height: 200}}>
-            <Line className='chart' data={data} options={{maintainAspectRatio: false, bezierCurve: true}}/>
+        <div className='plot container' style={{ height: 200 }}>
+            <Line className='chart' data={data} options={{ maintainAspectRatio: false, bezierCurve: true }} />
         </div>
     );
+
 }
 
 export default ForecastChart;

@@ -12,11 +12,17 @@ const googleKey = googleAPIKey;
 
 // set development stat to reduce API calls when making changes
 // when refreshing page - dev must be set to true
-const dev = true;
-const googDev = true;
+const dev = false;
+const googDev = false;
 
 // const dev = true;
 // const googDev = true;
+
+const initLoc = {
+  lat: 41.6967,
+  lng: -88.197,
+  city: 'charlotte Nce'
+}
 
 
 function App() {
@@ -24,7 +30,7 @@ function App() {
   const [data, setData] = useState(null);
   const [zipcode, setZipcode] = useState('28210')
   const [googUrl, setGoogUrl] = useState(`https://maps.googleapis.com/maps/api/geocode/json?key=${googleKey}&components=postal_code:${zipcode}`)
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState(initLoc);
   const [url, setUrl] = useState(`https://api.openweathermap.org/data/3.0/onecall?lat=41.6967&lon=-88.197&units=metric&exclude=minutely,hourly&appid=${APIKey}`);
 
   const setNewZip = (newZip) => {
@@ -75,7 +81,7 @@ function App() {
   }, [googUrl])
 
   useEffect(() => {
-      setUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${location.lat}&lon=${location.lng}&units=metric&exclude=minutely,hourly&appid=${APIKey}`);
+    setUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${location.lat}&lon=${location.lng}&units=metric&exclude=minutely,hourly&appid=${APIKey}`);
   }, [location])
 
   useEffect(() => {
@@ -90,11 +96,10 @@ function App() {
   return (
     <div>
       {/* added the ternary operator because setData is not being reliable for me */}
-      <CurrentWeather data={data ? data: fullSample} location={location} setNewZip={setNewZip}/>
+      {data && !data.cod && <CurrentWeather data={data} location={location} setNewZip={setNewZip} />}
       {/* 7 day forecast with temp chart*/}
-      <Forecast data={data ? data : fullSample}/>
+      {data && !data.cod && <Forecast data={data} />}
     </div>
-
   );
 }
 
