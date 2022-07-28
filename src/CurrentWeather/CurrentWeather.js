@@ -19,7 +19,6 @@ function CurrentWeather(props) {
 
     const skyIcon = (skyState) => {
         let icon;
-        // console.log(skyState);
         switch (skyState) {
             case 'Clear':
                 icon = '/resources/sunny.png';
@@ -40,7 +39,6 @@ function CurrentWeather(props) {
     }
 
     const windDirection = (direction) => {
-        // console.log(direction);
         let rotation = 90 + direction;
         return {
             'transform': `rotate(${rotation}deg)`,

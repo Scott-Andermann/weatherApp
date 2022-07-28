@@ -26,9 +26,6 @@ function App() {
   const [googUrl, setGoogUrl] = useState(`https://maps.googleapis.com/maps/api/geocode/json?key=${googleKey}&components=postal_code:${zipcode}`)
   const [location, setLocation] = useState({});
   const [url, setUrl] = useState(`https://api.openweathermap.org/data/3.0/onecall?lat=41.6967&lon=-88.197&units=metric&exclude=minutely,hourly&appid=${APIKey}`);
-  // console.log(url);
-
-  // console.log(fullSample.daily[0].temp.max);
 
   const setNewZip = (newZip) => {
     setZipcode(newZip);
