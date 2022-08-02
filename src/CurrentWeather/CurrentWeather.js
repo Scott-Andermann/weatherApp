@@ -4,8 +4,6 @@ import './CurrentWeather.css';
 function CurrentWeather(props) {
     const [newZip, setNewZip] = useState('');
     const [buttonState, setButtonState] = useState(false);
-    const [sunset, setSunset] = useState('');
-
 
     const handleNewZipChange = (event) => {
         setNewZip(event.target.value);

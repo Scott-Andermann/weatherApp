@@ -18,10 +18,10 @@ function Forecast(props) {
             {/* Should I move this block to a new Component? */}
             <div className='container'>
                 {daily.map(element => <ul className={'forecast ' + element}>
-                    <img className='icon' src={`/resources/${props.data && !props.cod && props.data.daily[element].weather[0].main}.png`} />
+                    <img className='icon' src={`/resources/${props.data.daily[element].weather[0].main}.png`} />
                     <li><h3 className='day'>{week[element]}</h3></li>
-                    <li>Temperature: {Number(props.data && !props.cod && props.data.daily[element].temp.max).toFixed(0)} / {Number(props.data && !props.cod && props.data.daily[element].temp.min).toFixed(0)} C</li>
-                    <li>Wind Speed: {Number(props.data && !props.cod && props.data.daily[element].wind_speed).toFixed(0)} m/s</li>
+                    <li>Temperature: {Number(props.data.daily[element].temp.max).toFixed(0)} / {Number(props.data.daily[element].temp.min).toFixed(0)} C</li>
+                    <li>Wind Speed: {Number(props.data.daily[element].wind_speed).toFixed(0)} m/s</li>
                 </ul>)}
             </div>
         </div>
